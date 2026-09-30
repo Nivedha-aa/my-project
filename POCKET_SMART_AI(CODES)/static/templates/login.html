@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Log in - PocketSmart AI{% endblock %}
+
+{% block content %}
+<section class="auth-shell container">
+	<div class="auth-intro">
+		<p class="eyebrow">Welcome back</p>
+		<h1>Your next good decision starts here.</h1>
+		<p>Pick up where you left off and keep your plans moving with a little more clarity.</p>
+	</div>
+	<div class="auth-card card">
+		<p class="eyebrow">Your account</p>
+		<h2>Log in</h2>
+		<p class="form-note">Welcome back to PocketSmart.</p>
+		<form id="login-form">
+			<div class="form-group">
+				<label for="username">Username</label>
+				<input id="username" name="username" type="text" autocomplete="username" required>
+			</div>
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input id="password" name="password" type="password" autocomplete="current-password" required>
+			</div>
+			<button class="btn form-submit" type="submit">Log in</button>
+			<p class="form-message" id="form-message" role="status"></p>
+		</form>
+		<p class="auth-switch">New to PocketSmart? <a class="text-link" href="/register">Create an account</a></p>
+	</div>
+</section>
+<script>
+	document.getElementById('login-form').addEventListener('submit', async (event) => {
+		event.preventDefault();
+		const message = document.getElementById('form-message');
+		const formData = new URLSearchParams(new FormData(event.target));
+		const response = await fetch('/token', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			body: formData
+		});
+		const result = await response.json();
+		if (response.ok) {
+			window.location.href = '/dashboard';
+		} else {
+			message.textContent = result.detail || 'Unable to log in.';
+			message.className = 'form-message error';
+		}
+	});
+</script>
+{% endblock %}

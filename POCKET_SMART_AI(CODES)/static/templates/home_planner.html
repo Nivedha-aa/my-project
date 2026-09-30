@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Home planner - PocketSmart AI{% endblock %}
+{% block content %}
+<section class="container planner-header"><p class="eyebrow">Home interior</p><h1>Make your space feel like yours.</h1><p>Tell us what you are working with and we will help turn your budget into a practical room-by-room plan.</p></section>
+<section class="container planner-layout">
+	<form class="card planner-form" id="home-budget-form">
+		<h2>Set your brief</h2>
+		<div class="form-group"><label for="total_budget">Total budget</label><input id="total_budget" name="total_budget" type="number" min="1" required placeholder="50000"></div>
+		<div class="form-grid"><div class="form-group"><label for="num_lights">Lights</label><input id="num_lights" name="num_lights" type="number" min="0" value="0"></div><div class="form-group"><label for="num_fans">Fans</label><input id="num_fans" name="num_fans" type="number" min="0" value="0"></div><div class="form-group"><label for="num_furniture">Furniture pieces</label><input id="num_furniture" name="num_furniture" type="number" min="0" value="0"></div><div class="form-group"><label for="num_dining_tables">Dining tables</label><input id="num_dining_tables" name="num_dining_tables" type="number" min="0" value="0"></div></div>
+		<div class="checkbox-group"><label><input name="has_living_room" type="checkbox"> Living room</label><label><input name="has_kitchen" type="checkbox"> Kitchen</label><label><input name="has_bedroom" type="checkbox"> Bedroom</label></div>
+		<div class="form-group"><label for="additional_requirements">Anything else?</label><textarea id="additional_requirements" name="additional_requirements" rows="3" placeholder="Your priorities or constraints"></textarea></div>
+		<button class="btn" type="submit">Create home plan</button><p class="form-message" id="planner-message" role="status"></p>
+	</form>
+	<div class="planner-aside"><p class="eyebrow">A useful starting point</p><h2>Good plans leave breathing room.</h2><p>We will keep your priorities visible while protecting a little room for the unexpected.</p><pre class="result-box" id="planner-result">Your recommendation will appear here.</pre></div>
+</section>
+<script>
+	document.getElementById('home-budget-form').addEventListener('submit', async (event) => {
+		event.preventDefault(); const form = new FormData(event.target); const data = Object.fromEntries(form);
+		['num_lights','num_fans','num_furniture','num_dining_tables'].forEach(key => data[key] = Number(data[key] || 0));
+		['has_living_room','has_kitchen','has_bedroom'].forEach(key => data[key] = form.has(key)); data.total_budget = Number(data.total_budget);
+		const response = await fetch('/home-budget', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) });
+		const result = await response.json(); document.getElementById('planner-message').textContent = response.ok ? 'Your plan is ready.' : (result.detail || 'Unable to create a plan.'); document.getElementById('planner-result').textContent = JSON.stringify(result, null, 2);
+	});
+</script>
+{% endblock %}

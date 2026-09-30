@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}PocketSmart AI - Budgeting Assistant{% endblock %}
+
+{% block content %}
+<section class="hero container">
+	<div class="hero-copy">
+		<p class="eyebrow">Your plans, made practical</p>
+		<h1>Make room for what matters.</h1>
+		<p class="hero-text">PocketSmart turns a budget into a clear, confident plan for your home, parties, and personal style.</p>
+		<div class="hero-actions">
+			<a class="btn" href="/register">Build your first plan</a>
+			<a class="text-link" href="/login">I already have an account <span aria-hidden="true">&#8594;</span></a>
+		</div>
+	</div>
+	<div class="hero-panel" aria-label="Budget overview">
+		<div class="panel-heading"><span>Monthly snapshot</span><span class="status-dot">On track</span></div>
+		<div class="budget-total"><span>Available to plan</span><strong>₹48,500</strong></div>
+		<div class="progress"><span style="width: 72%"></span></div>
+		<div class="budget-meta"><span>72% allocated</span><span>₹13,580 left</span></div>
+		<div class="mini-list">
+			<div><span class="mini-icon home-icon">&#8962;</span><span>Home refresh</span><strong>₹21,000</strong></div>
+			<div><span class="mini-icon party-icon">&#10022;</span><span>Celebration</span><strong>₹12,400</strong></div>
+			<div><span class="mini-icon style-icon">&#9670;</span><span>Personal style</span><strong>₹1,520</strong></div>
+		</div>
+	</div>
+</section>
+
+<section class="container feature-section">
+	<div class="section-heading">
+		<p class="eyebrow">One calm place to plan</p>
+		<h2>From idea to done.</h2>
+	</div>
+	<div class="grid-3">
+		<article class="card feature-card"><span class="feature-number">01</span><h3>Home planner</h3><p>Shape every room around your budget, priorities, and the way you actually live.</p><a class="text-link" href="{% if user %}/home-planner{% else %}/login{% endif %}">Explore planning <span aria-hidden="true">&#8594;</span></a></article>
+		<article class="card feature-card"><span class="feature-number">02</span><h3>Party planner</h3><p>Balance guests, food, decor, and atmosphere without losing sight of the total.</p><a class="text-link" href="{% if user %}/party-planner{% else %}/login{% endif %}">Plan a celebration <span aria-hidden="true">&#8594;</span></a></article>
+		<article class="card feature-card"><span class="feature-number">03</span><h3>Style planner</h3><p>Find thoughtful jewelry options for the moment and the money you want to spend.</p><a class="text-link" href="{% if user %}/jewelry-planner{% else %}/login{% endif %}">Find your look <span aria-hidden="true">&#8594;</span></a></article>
+	</div>
+</section>
+{% endblock %}

@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}History - PocketSmart AI{% endblock %}
+{% block content %}
+<section class="container dashboard-header"><p class="eyebrow">Your decisions</p><h1>Plan history.</h1><p>A simple record of the recommendations you have created.</p></section>
+<section class="container history-list">{% if history %}{% for item in history %}<article class="card history-item"><div><span class="feature-number">{{ item.recommendation_type }}</span><h2>{{ item.timestamp }}</h2></div><strong>₹{{ item.result_summary.total_budget }}</strong></article>{% endfor %}{% else %}<div class="card empty-state"><p>No plans yet. Your recommendations will appear here.</p><a class="btn" href="/dashboard">Back to dashboard</a></div>{% endif %}</section>
+{% endblock %}

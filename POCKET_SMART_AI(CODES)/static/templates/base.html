@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{% block title %}PocketSmart AI{% endblock %}</title>
+	<link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}?v=2">
+</head>
+<body>
+	<header class="navbar">
+		<a class="brand" href="/">PocketSmart <span>AI</span></a>
+		<nav aria-label="Main navigation">
+			{% if user %}
+			<a href="/dashboard">Dashboard</a>
+			<a href="/history">History</a>
+			<form class="inline-form" method="post" action="/logout">
+				<button class="nav-button" type="submit">Log out</button>
+			</form>
+			{% else %}
+			<a href="/login">Log in</a>
+			<a class="nav-cta" href="/register">Get started</a>
+			{% endif %}
+		</nav>
+	</header>
+
+	<main>
+		{% block content %}{% endblock %}
+	</main>
+
+	<footer>Plan with intention. Spend with confidence.</footer>
+</body>
+</html>
