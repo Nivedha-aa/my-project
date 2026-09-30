@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Create account - PocketSmart AI{% endblock %}
+
+{% block content %}
+<section class="auth-shell container">
+	<div class="auth-intro">
+		<p class="eyebrow">A better way to begin</p>
+		<h1>Make your money feel more manageable.</h1>
+		<p>Save your plans, revisit your decisions, and keep every important occasion within reach.</p>
+	</div>
+	<div class="auth-card card">
+		<p class="eyebrow">Create your account</p>
+		<h2>Start planning</h2>
+		<p class="form-note">It only takes a minute.</p>
+		<form id="register-form">
+			<div class="form-group">
+				<label for="username">Username</label>
+				<input id="username" name="username" type="text" autocomplete="username" required>
+			</div>
+			<div class="form-group">
+				<label for="email">Email address</label>
+				<input id="email" name="email" type="email" autocomplete="email" required>
+			</div>
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input id="password" name="password" type="password" autocomplete="new-password" minlength="6" required>
+			</div>
+			<button class="btn form-submit" type="submit">Create account</button>
+			<p class="form-message" id="form-message" role="status"></p>
+		</form>
+		<p class="auth-switch">Already have an account? <a class="text-link" href="/login">Log in</a></p>
+	</div>
+</section>
+<script>
+	document.getElementById('register-form').addEventListener('submit', async (event) => {
+		event.preventDefault();
+		const message = document.getElementById('form-message');
+		const formData = new FormData(event.target);
+		const response = await fetch('/register', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(Object.fromEntries(formData))
+		});
+		const result = await response.json();
+		message.textContent = response.ok ? 'Account created. Redirecting to login...' : (result.detail || 'Unable to create account.');
+		message.className = response.ok ? 'form-message success' : 'form-message error';
+		if (response.ok) setTimeout(() => { window.location.href = '/login'; }, 700);
+	});
+</script>
+{% endblock %}
